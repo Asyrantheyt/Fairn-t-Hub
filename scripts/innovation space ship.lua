@@ -37,6 +37,21 @@ local tpTab = Window:MakeTab({
 	PremiumOnly = false
 })
 
+local debugTab = Window:MakeTab({
+	Name = "Debugging",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+local Eng1Temp = MainTab:AddLabel("Engine1 Temp: ")
+local Eng2Temp = MainTab:AddLabel("Engine2 Temp: ")
+local Eng3Temp = MainTab:AddLabel("Engine3 Temp: ")
+local Eng4Temp = MainTab:AddLabel("Engine4 Temp: ")
+local Eng5Temp = MainTab:AddLabel("Engine5 Temp: ")
+local Eng6Temp = MainTab:AddLabel("Engine6 Temp: ")
+local Eng7Temp = MainTab:AddLabel("Engine7 Temp: ")
+local FuelLabel = MainTab:AddLabel("Fuel: ")
+
 MainTab:AddDropdown({
 	Name = "Select Engine Number",
 	Default = 1,
@@ -198,11 +213,10 @@ local fanon
 local coolon
 
 local TempLabel = CoreTab:AddLabel("Core's Temp: ")
-
-game:GetService("RunService").RenderStepped:Connect(function()
-    TempLabel:Set("Core's Temp: "..workspace.Screen2.Temperature.SurfaceGui.Temp.Text)
-    wait(.2)
-end)
+local CoreStatus = CoreTab:AddLabel("Core's Status: ")
+local CoreTempRate = CoreTab:AddLabel("Core's Temp rate: ")
+local CoreOutput = CoreTab:AddLabel("Core's Power ")
+local CoreStability = CoreTab:AddLabel("Core's  ")
 
 CoreTab:AddDropdown({
 	Name = "Select Tower Number",
@@ -398,5 +412,33 @@ tpTab:AddButton({
         char.HumanoidRootPart.CFrame = CFrame.new(-196.482605, 145.926315, -1272.4823, 0.0818316191, -4.3720112e-09, -0.996646166, -2.79244627e-09, 1, -4.61600314e-09, 0.996646166, 3.16081583e-09, 0.0818316191)
   	end    
 })
+
+local rFPS = debugTab:AddLabel("Real FPS: ")
+
+local ConDanger = workspace.CollisionDanger.SurfaceGui.ImageLabel
+game:GetService("RunService").RenderStepped:Connect(function()
+    Eng1Temp:Set("Engine1 Temp: "..ConDanger.Temp1.Value.Value.."°C")
+    Eng2Temp:Set("Engine2 Temp: "..ConDanger.Temp2.Value.Value.."°C")
+    Eng3Temp:Set("Engine3 Temp: "..ConDanger.Temp3.Value.Value.."°C")
+    Eng4Temp:Set("Engine4 Temp: "..ConDanger.Temp4.Value.Value.."°C")
+    Eng5Temp:Set("Engine5 Temp: "..ConDanger.Temp5.Value.Value.."°C")
+    Eng6Temp:Set("Engine6 Temp: "..ConDanger.Temp6.Value.Value.."°C")
+    Eng7Temp:Set("Engine7 Temp: "..ConDanger.Temp7.Value.Value.."°C")
+    FuelLabel:Set("Fuel: "..ConDanger.Fuel.Value.Value.."%")
+    TempLabel:Set("Core's Temp: "..workspace.Screen2.Temperature.Temperature.Value.."°C")
+    CoreStatus:Set("Core's Status: "..workspace.Yeet.SurfaceGui.StatusText.Text)
+    CoreTempRate:Set("Core's Temp rate: "..workspace.Screen2.Temperature.BIGAdder.CoreAdd.Value)
+    CoreOutput:Set("Core's Power "..workspace.Screen3.SurfaceGui.Frame.Deco.OutputLabel.Text)
+    CoreStability:Set("Core's "..workspace.Screen3.SurfaceGui.Frame.Deco.StabilityLabel.Text)
+    wait(.2)
+end)
+
+fps = 0 -- Setting global
+game:GetService("RunService").RenderStepped:Connect(function() -- Line 2
+	rFPS:Set("Real FPS: "..fps)
+	fps = fps + 1 -- Setting global
+	wait(1)
+	fps = fps - 1 -- Setting global
+end)
 
 OrionLib:Init()
