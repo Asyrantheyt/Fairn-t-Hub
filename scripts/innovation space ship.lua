@@ -1,7 +1,7 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local plr = game.Players.LocalPlayer
 local char = plr.Character 
-local cam = workspace.CurrentCamera
+local cam = workspace.Camera
 
 
 
