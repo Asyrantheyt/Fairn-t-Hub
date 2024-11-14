@@ -120,7 +120,7 @@ maiTab:AddButton({
             local char = game.Players.LocalPlayer.Character
             local lastplayerpos = char.HumanoidRootPart.CFrame
             local yaysock,noshock = workspace:FindFirstChild("Shockstone")
-            if yay then
+            if yaysock then
                 for i,v in workspace:GetChildren() do
                     if v.Name == "Shockstone" then
                         char.HumanoidRootPart.CFrame = v.CFrame
@@ -200,7 +200,7 @@ maiTab:AddToggle({
                 if v.Name:lower() == "shockstone" or v.Name:lower() == "moonstone" then
                     local esphight = Instance.new("BoxHandleAdornment")
                     esphight.Name = v.Name.."_Fairnt_Esp"
-                    if v.name == shockstone then
+                    if v.Name:lower() == "shockstone" then
                         esphight.Color3 = Color3.fromRGB(0,255,0)
                     else
                         esphight.Color3 = Color3.fromRGB(255,0,0)
@@ -219,7 +219,7 @@ maiTab:AddToggle({
                     if v.Name:lower() == "shockstone" or v.Name:lower() == "moonstone" then
                         local esphight = Instance.new("BoxHandleAdornment")
                         esphight.Name = v.Name.."_Fairnt_Esp"
-                        if v.name:lower() == "shockstone" then
+                        if v.Name:lower() == "shockstone" then
                             esphight.Color3 = Color3.fromRGB(0,255,0)
                         else
                             esphight.Color3 = Color3.fromRGB(255,0,0)
