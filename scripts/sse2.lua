@@ -7,7 +7,7 @@ wrltoscr = cucam.WorldToViewportPoint
 
 
 
-local Window = OrionLib:MakeWindow({Name = "Fairn't Hub (SSE2)", HidePremium = true, SaveConfig = true, ConfigFolder = "Fairnt_SSE2"})
+local SeWindows = OrionLib:MakeWindow({Name = "Fairn't Hub (SSE2)", HidePremium = true, SaveConfig = true, ConfigFolder = "Fairnt_SSE2"})
 
 --[[
 Name = <string> - The name of the UI.
@@ -17,53 +17,100 @@ ConfigFolder = <string> - The name of the folder where the configs are saved.
 IntroEnabled = <bool> - Whether or not to show the intro animation.
 IntroText = <string> - Text to show in the intro animation.
 IntroIcon = <string> - URL to the image you want to use in the intro animation.
-Icon = <string> - URL to the image you want displayed on the window.
-CloseCallback = <function> - Function to execute when the window is closed.
+Icon = <string> - URL to the image you want displayed on the SeWindows.
+CloseCallback = <function> - Function to execute when the SeWindows is closed.
 ]]
+local moonstone,notmoon pcall(function()
+    Moonstones = workspace.MoonstoneScript
+end)
 
-local Moonstones = workspace.MoonstoneScript
+if moonstone then return else local fakescript = Instance.new("Script") fakescript.Parent = workspace; fakescript.Name = "MoonstoneScript" end
+Moonstones = workspace.MoonstoneScript
 
-local maiTab = Window:MakeTab({
+local maiTab = SeWindows:MakeTab({
 	Name = "MainTab",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
-local tpTab = Window:MakeTab({
+local tpTab = SeWindows:MakeTab({
 	Name = "TeleportTab",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
 
+local tpback = false
 local distance = maiTab:AddLabel("")
+
+maiTab:AddToggle({
+	Name = "Tp back when done getting rocks",
+	Default = false,
+	Callback = function(Value)
+        tpback = Value
+	end    
+})
 
 maiTab:AddButton({
 	Name = "Get Moonstone (tp to moon first)",
 	Callback = function(Value)
             local char = game.Players.LocalPlayer.Character
-            char.HumanoidRootPart.CFrame = Moonstones:GetChildren()[1].CFrame
-            fireclickdetector(Moonstones:GetChildren()[1])
+            local lastplayerpos = char.HumanoidRootPart.CFrame
+            local yes,no = pcall(function()
+                char.HumanoidRootPart.CFrame = Moonstones:GetChildren()[1].CFrame
+                fireclickdetector(Moonstones:GetChildren()[1])
+            end)
+            if tpback == true then
+                wait(.1)
+                char.HumanoidRootPart.CFrame = lastplayerpos
+            end
+            lastplayerpos = nil
+            if yes then
             OrionLib:MakeNotification({
                 Name = "Moonstone Grabbed",
                 Content = "why do u need do read this?",
                 Image = "rbxassetid://4483345998",
                 Time = 5
             })
+            else
+            OrionLib:MakeNotification({
+                Name = "Moonstone Not spawned or founded",
+                Content = "Please teleport to the moon unless if its destroy",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            }) 
+            end
     end    
 })
 
 maiTab:AddButton({
 	Name = "Get ShockStone (Miranda Version and tp to Mirandaa first)",
 	Callback = function(Value)
-            local char = game.Players.LocalPlayer.Character
+        local char = game.Players.LocalPlayer.Character
+        local lastplayerpos = char.HumanoidRootPart.CFrame
+        local yaymishock,nomishock = pcall(function()
             char.HumanoidRootPart.CFrame = workspace.Miranda.MirandaStoneScript:GetChildren()[1].CFrame
             fireclickdetector(workspace.Miranda.MirandaStoneScript:GetChildren()[1])
+        end)
+        if yaymishock then
             OrionLib:MakeNotification({
                 Name = "Shockstone Grabbed",
                 Content = "why do u need do read this?",
                 Image = "rbxassetid://4483345998",
                 Time = 5
             })
+            if tpback == true then
+                wait(.1)
+                char.HumanoidRootPart.CFrame = lastplayerpos
+            end
+            lastplayerpos = nil
+        else
+            OrionLib:MakeNotification({
+                Name = "No Shockstone found or spawned",
+                Content = "If your looking for it in Alcause. Try doing the Workspace Version. If not, Try teleporting to Miranda to load the shockstone in or wait for 30 sec",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        end
     end    
 })
 
@@ -71,35 +118,134 @@ maiTab:AddButton({
 	Name = "Get ShockStone (Workspace Version)",
 	Callback = function(Value)
             local char = game.Players.LocalPlayer.Character
+            local lastplayerpos = char.HumanoidRootPart.CFrame
+            local yaysock,noshock = workspace:FindFirstChild("Shockstone")
+            if yay then
+                for i,v in workspace:GetChildren() do
+                    if v.Name == "Shockstone" then
+                        char.HumanoidRootPart.CFrame = v.CFrame
+                        fireclickdetector(v)
+                        if tpback == true then
+                            wait(.1)
+                            char.HumanoidRootPart.CFrame = lastplayerpos
+                        end
+                        lastplayerpos = nil
+                        OrionLib:MakeNotification({
+                            Name = "Shockstone Grabbed",
+                            Content = "why do u need do read this?",
+                            Image = "rbxassetid://4483345998",
+                            Time = 5
+                        })
+                        break
+                    end
+                end
+                else
+                OrionLib:MakeNotification({
+                    Name = "No Shockstone found",
+                    Content = "If your looking for it in Miranda. Try doing the Miranda Version",
+                    Image = "rbxassetid://4483345998",
+                    Time = 5
+                })
+            end
+ 
+    end    
+})
+
+maiTab:AddButton({
+	Name = "Get MarsRock",
+	Callback = function(Value)
+            local char = game.Players.LocalPlayer.Character
+            local lastplayerpos = char.HumanoidRootPart.CFrame
             for i,v in workspace:GetChildren() do
-                if v.Name == "Shockstone" then
+                if v.Name == "MarsRock" then
+                    if tostring(v.Excavator.Value) == plr.Name then
                     char.HumanoidRootPart.CFrame = v.CFrame
                     fireclickdetector(v) 
+                    if tpback == true then
+                        wait(.1)
+                        char.HumanoidRootPart.CFrame = lastplayerpos
+                    end
+                    lastplayerpos = nil
                     OrionLib:MakeNotification({
-                        Name = "Shockstone Grabbed",
+                        Name = "MarsRock Grabbed",
                         Content = "why do u need do read this?",
                         Image = "rbxassetid://4483345998",
                         Time = 5
                     })
                     break
+                else
+                    OrionLib:MakeNotification({
+                        Name = "Not your MarsRock",
+                        Content = "You cant pick up MarsRock that is not from u. Finding others",
+                        Image = "rbxassetid://4483345998",
+                        Time = 5
+                 
+                    })
+                end
+                    
                 end
             end
  
     end    
 })
 
---[[maiTab:AddToggle({
-	Name = "Moonstone Esp",
+
+
+maiTab:AddToggle({
+	Name = "Moon and Shockstone Esp",
 	Default = false,
 	Callback = function(Value)
-        local esphight = Instance.new("BoxHandleAdornment")
-        esphight.Color3 = Color3.fromRGB(0,255,0)
-        esphight.Size = Vector3.new(4,4,4)
-        esphight.CFrame = CFrame.new(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
-        esphight.Visible = true
-        esphight.Parent = 
-	end    
-})]]
+        if Value == true then
+            for i,v in pairs(workspace:GetDescendants()) do
+                if v.Name:lower() == "shockstone" or v.Name:lower() == "moonstone" then
+                    local esphight = Instance.new("BoxHandleAdornment")
+                    esphight.Name = v.Name.."_Fairnt_Esp"
+                    if v.name == shockstone then
+                        esphight.Color3 = Color3.fromRGB(0,255,0)
+                    else
+                        esphight.Color3 = Color3.fromRGB(255,0,0)
+                    end
+                    esphight.Size = v.Size
+                    esphight.AlwaysOnTop = true
+                    esphight.ZIndex = 0
+                    esphight.Visible = true
+                    esphight.Transparency = 0.5
+                    esphight.Adornee = v
+                    esphight.Parent = v
+                end
+            end
+            workspace.DescendantsAdded:Connect(function(v)
+                if Value == true then
+                    if v.Name:lower() == "shockstone" or v.Name:lower() == "moonstone" then
+                        local esphight = Instance.new("BoxHandleAdornment")
+                        esphight.Name = v.Name.."_Fairnt_Esp"
+                        if v.name:lower() == "shockstone" then
+                            esphight.Color3 = Color3.fromRGB(0,255,0)
+                        else
+                            esphight.Color3 = Color3.fromRGB(255,0,0)
+                        end
+                        esphight.Size = v.Size
+                        esphight.AlwaysOnTop = true
+                        esphight.ZIndex = 0
+                        esphight.Visible = true
+                        esphight.Transparency = 0.5
+                        esphight.Adornee = v
+                        esphight.Parent = v
+                    end
+                end
+            end)
+            elseif Value == false then
+                for i,v in pairs(workspace:GetDescendants()) do
+                    if v.Name:lower() == "shockstone" or v.Name:lower() == "moonstone" then
+                        local esphight = v:FindFirstChild(v.Name.."_Fairnt_Esp")
+                        if esphight then
+                            esphight:Destroy()
+                        end
+                    end
+                end
+            end
+        end
+})
 
 local onslot
 local lastpos1 
@@ -202,7 +348,7 @@ tpTab:AddButton({
 })
 
 tpTab:AddButton({
-	Name = "Goto Mindara",
+	Name = "Goto Miranda",
 	Callback = function(Value)
         local char = game.Players.LocalPlayer.Character
         char.HumanoidRootPart.CFrame = CFrame.new(-24971.3418, 88.4085083, 26143.1992, 0.293683767, 0.779479444, 0.553318799, -0.0506638214, 0.590723455, -0.805281937, -0.954559088, 0.20846498, 0.21297729)
@@ -251,9 +397,13 @@ tpTab:AddButton({
 
 game:GetService("RunService").RenderStepped:Connect(function()
     local yay,sus = pcall(function()
-    distance:Set(workspace.Tracker.Model.Background.SurfaceGui.Distance.Text)
+        distance:Set(workspace.Tracker.Model.Background.SurfaceGui.Distance.Text)
     end)
-    if yay then return elseif sus then distance:Set("Nibiru has crashed into earth") end
+    if yay then 
+        return 
+    elseif sus then 
+        distance:Set("Nibiru has crashed into earth") 
+    end
 end)
 
 OrionLib:Init()
