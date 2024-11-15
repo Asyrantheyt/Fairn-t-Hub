@@ -214,7 +214,7 @@ maiTab:AddToggle({
                     esphight.Parent = v
                 end
             end
-            workspace.DescendantsAdded:Connect(function(v)
+            workspace.DescendantAdded:Connect(function(v)
                 if Value == true then
                     if v.Name:lower() == "shockstone" or v.Name:lower() == "moonstone" then
                         local esphight = Instance.new("BoxHandleAdornment")
