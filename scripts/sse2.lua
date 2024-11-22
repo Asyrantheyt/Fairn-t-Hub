@@ -50,6 +50,16 @@ maiTab:AddToggle({
 	end    
 })
 local getair
+maiTab:AddButton({
+	Name = "Get Air (Dome thats powered required)",
+	Default = false,
+	Callback = function(Value)
+        firetouchinterest(workspace.Miners.Dome.AirRegion,game.Players.LocalPlayer.Character.Head,1)
+        wait(0.1)
+        firetouchinterest(workspace.Miners.Dome.AirRegion,game.Players.LocalPlayer.Character.Head,0)
+    end
+})
+
 maiTab:AddToggle({
 	Name = "Get Air (Dome thats powered required)",
 	Default = false,
@@ -162,39 +172,62 @@ maiTab:AddButton({
 maiTab:AddButton({
 	Name = "Get MarsRock",
 	Callback = function(Value)
-            local char = game.Players.LocalPlayer.Character
-            local lastplayerpos = char.HumanoidRootPart.CFrame
+        local char = game.Players.LocalPlayer.Character
+        local lastplayerpos = char.HumanoidRootPart.CFrame
+        local marsrock,nomarsrock = workspace:FindFirstChild("MarsRock")
+        if marsrock then
             for i,v in workspace:GetChildren() do
                 if v.Name == "MarsRock" then
                     if tostring(v.Excavator.Value) == plr.Name or tostring(v.Excavator.Value) == "" then
-                    char.HumanoidRootPart.CFrame = v.CFrame
-                    fireclickdetector(v) 
-                    if tpback == true then
-                        wait(.1)
-                        char.HumanoidRootPart.CFrame = lastplayerpos
-                    end
-                    lastplayerpos = nil
-                    OrionLib:MakeNotification({
-                        Name = "MarsRock Grabbed",
-                        Content = "why do u need do read this?",
-                        Image = "rbxassetid://4483345998",
-                        Time = 5
-                    })
-                    break
-                else
-                    OrionLib:MakeNotification({
-                        Name = "Not your MarsRock",
-                        Content = "You cant pick up MarsRock that is not from u. Finding others",
-                        Image = "rbxassetid://4483345998",
-                        Time = 5
-                 
-                    })
-                end
-                    
+                        char.HumanoidRootPart.CFrame = v.CFrame
+                        fireclickdetector(v) 
+                        if tpback == true then
+                            wait(.1)
+                            char.HumanoidRootPart.CFrame = lastplayerpos
+                        end
+                        lastplayerpos = nil
+                        OrionLib:MakeNotification({
+                            Name = "MarsRock Grabbed",
+                            Content = "why do u need do read this?",
+                            Image = "rbxassetid://4483345998",
+                            Time = 5
+                        })
+                        break
+                    else
+                        OrionLib:MakeNotification({
+                            Name = "Not your MarsRock",
+                            Content = "You cant pick up MarsRock that is not from u. Finding others",
+                            Image = "rbxassetid://4483345998",
+                            Time = 5
+                        })
+                    end    
                 end
             end
- 
+        else
+            OrionLib:MakeNotification({
+                Name = "No Marsrock found",
+                Content = "Use a c4 to get some",
+                Image = "rbxassetid://4483345998",
+                Time = 5
+            })
+        end
     end    
+})
+
+maiTab:AddButton({
+	Name = "Sell Rocks (anticheat bypass Version)",
+	Default = false,
+	Callback = function(Value)
+        local char = game.Players.LocalPlayer.Character
+        local lastplayerpos = char.HumanoidRootPart.CFrame
+        char.HumanoidRootPart.CFrame = CFrame.new(124.651794, 1215.68481, -1654.4032, -0.00435729232, 0.0606043264, 0.998152375, -0.805669308, 0.591053545, -0.039403744, -0.592349529, -0.804352403, 0.0462516546)
+        wait(0.2)
+        char.HumanoidRootPart.CFrame = CFrame.new(124.651794, 1215.68481, -1654.4032, -0.00435729232, 0.0606043264, 0.998152375, -0.805669308, 0.591053545, -0.039403744, -0.592349529, -0.804352403, 0.0462516546)
+        game:GetService("ReplicatedStorage").SellRocks:InvokeServer()
+        wait(1)
+        char.HumanoidRootPart.CFrame = lastplayerpos
+        lastplayerpos = nil
+	end    
 })
 
 maiTab:AddButton({
@@ -389,7 +422,7 @@ tpTab:AddButton({
 })
 
 tpTab:AddButton({
-	Name = "Goto Callisto (outside)",
+	Name = "Goto Callisto (outside, broken)",
 	Callback = function(Value)
         local char = game.Players.LocalPlayer.Character
         char.HumanoidRootPart.CFrame = CFrame.new(-36568.4258, 2484.57031, 41453.543, 0.560249567, -0.395209789, 0.727962673, -0.458721668, 0.583734393, 0.669946671, -0.689706326, -0.709269583, 0.14574565)
@@ -418,7 +451,7 @@ game:GetService("RunService").RenderStepped:Connect(function()
     end)
     if getair == true then
         firetouchinterest(workspace.Miners.Dome.AirRegion,game.Players.LocalPlayer.Character.Head,1)
-        wait(.1)
+        wait(0.1)
         firetouchinterest(workspace.Miners.Dome.AirRegion,game.Players.LocalPlayer.Character.Head,0)
     end
     if yay then 
