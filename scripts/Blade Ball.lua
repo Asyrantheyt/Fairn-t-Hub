@@ -35,6 +35,8 @@ local aparry2
 local aparry1 = MainTab:AddToggle({
 	Name = "Auto Parry",
 	Default = false,
+    	Save = true,
+    	Flag = "Auto Parry",
 	Callback = function(Value)
     --pcall(function()
         --aparry2:Set(false)
@@ -72,6 +74,8 @@ MainTab:AddTextbox({
 	Name = "Keybind to press for parry",
 	Default = "F",
 	TextDisappear = false,
+    	Save = true,
+    	Flag = "KeyBind",
 	Callback = function(Value)
 		KeyCodeBlock = Value
 	end	  
