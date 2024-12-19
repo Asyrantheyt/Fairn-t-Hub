@@ -1,6 +1,8 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local esp = false
+local instoption
 local instrevive
+local instkey
 
 local EvadeWindow = OrionLib:MakeWindow({Name = "Fairn't Hub (Evade)", HidePremium = true, SaveConfig = true, ConfigFolder = "Fairnt_Evade"})
 
@@ -96,11 +98,31 @@ MainTab:AddToggle({
 	end    
 })
 
+MainTab:AddDropdown({
+	Name = "Instant Revive Option",
+	Default = "1: Hover on Player",
+	Options = {"1: Hover on Player", "2: Press Selected Key (Hold)"},
+	Save = true,
+    Flag = "Inst revive op",
+    Callback = function(Value)
+		instoption = Value
+	end    
+})
+
 MainTab:AddToggle({
 	Name = "Instant Revive",
 	Default = false,
 	Callback = function(Value)
         instrevive = Value
+	end    
+})
+
+MainTab:AddBind({
+	Name = "Keybind For Revive",
+	Default = Enum.KeyCode.E,
+	Hold = true,
+	Callback = function(v)
+        instkey = v
 	end    
 })
 
@@ -124,7 +146,20 @@ end
 spawn(function()
     while task.wait(.08) do
         local yay,sus = pcall(function()
-            if instrevive then
+            if instrevive and instoption == "1: Hover on Player" then
+                print("Hold")
+                local close = getcloset()
+                local distance = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - close.Character.HumanoidRootPart.Position).Magnitude
+                if distance <= 20 then
+                    local args = {
+                    [1] = "Revive",
+                    [2] = true,
+                    [3] = close.Name
+                    }
+                    game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Character"):WaitForChild("Interact"):FireServer(unpack(args))
+                end
+            elseif instrevive and instoption == "2: Press Selected Key (Hold)" and instkey then
+                print("Key")
                 local close = getcloset()
                 local distance = (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - close.Character.HumanoidRootPart.Position).Magnitude
                 if distance <= 20 then
