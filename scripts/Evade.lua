@@ -32,7 +32,7 @@ function plresp()
                 esptext.Text = "(Display) Name: "..(game.Players:GetPlayerFromCharacter(v).DisplayName)
                 esptext.Center = true
                 esptext.Outline = false
-                esptext.Size = 20
+                esptext.Size = 10
                 esptext.Font = Drawing.Fonts.Monospace -- Monospace, UI, System, Plex
                 esptext.Transparency = 0.9
                 function always()
@@ -64,7 +64,7 @@ function plresp()
             end
         end
         workspace.Game.Players.ChildAdded:Connect(function(v)
-            if v:GetAttribute("Team") == "PlayerTeam" and v.Name ~= game.Players.LocalPlayer.Name then
+            if esp and v:GetAttribute("Team") == "PlayerTeam" and v.Name ~= game.Players.LocalPlayer.Name then
                 local esphigh = Instance.new("BoxHandleAdornment")
                 esphigh.ZIndex = 1
                 esphigh.Visible = true
@@ -75,7 +75,7 @@ function plresp()
                 esptext.Text = "(Display) Name: "..(game.Players:GetPlayerFromCharacter(v).DisplayName)
                 esptext.Center = true
                 esptext.Outline = false
-                esptext.Size = 20
+                esptext.Size = 10
                 esptext.Font = Drawing.Fonts.Monospace -- Monospace, UI, System, Plex
                 esptext.Transparency = 0.9
                 function always()
@@ -106,6 +106,9 @@ function plresp()
                 coroutine.wrap(always)()
             end
         end)
+        -- workspace.Game.Players.ChildRemoved:Connect(function(v)
+
+        -- end)
     elseif not esp then
         cleardrawcache()
         for i,v in pairs(workspace.Game.Players:GetChildren()) do
