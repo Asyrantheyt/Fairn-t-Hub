@@ -39,6 +39,14 @@ function plresp()
                     game:GetService("RunService").RenderStepped:Connect(function(s)
                         if esp then
                             if v:FindFirstChild("HumanoidRootPart") ~= nil then
+                                workspace.Game.Players.ChildRemoved:Connect(function(v2)
+                                    wait(0.08)
+                                    if esp then
+                                        if esptext.Text == "(Display) Name: "..(game.Players:GetPlayerFromCharacter(v2).DisplayName) then
+                                            esptext:Destroy()
+                                        end
+                                    end
+                                end)
                                 local vector,ison = workspace.CurrentCamera:WorldToViewportPoint(v.HumanoidRootPart.Position)
                                 esphigh.Adornee = v.HumanoidRootPart
                                 esphigh.Size = v.HumanoidRootPart.Size
@@ -82,6 +90,14 @@ function plresp()
                     game:GetService("RunService").RenderStepped:Connect(function(s)
                         if esp then
                             if v:FindFirstChild("HumanoidRootPart") ~= nil then
+                                workspace.Game.Players.ChildRemoved:Connect(function(v2)
+                                    wait(0.08)
+                                    if esp then
+                                        if esptext.Text == "(Display) Name: "..(game.Players:GetPlayerFromCharacter(v2).DisplayName) then
+                                            esptext:Destroy()
+                                        end
+                                    end
+                                end)
                                 local vector,ison = workspace.CurrentCamera:WorldToViewportPoint(v.HumanoidRootPart.Position)
                                 esphigh.Adornee = v.HumanoidRootPart
                                 esphigh.Size = v.HumanoidRootPart.Size
@@ -107,7 +123,7 @@ function plresp()
             end
         end)
         -- workspace.Game.Players.ChildRemoved:Connect(function(v)
-
+            
         -- end)
     elseif not esp then
         cleardrawcache()
