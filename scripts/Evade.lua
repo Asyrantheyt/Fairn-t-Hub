@@ -18,6 +18,106 @@ Icon = <string> - URL to the image you want displayed on the SeWindows.
 CloseCallback = <function> - Function to execute when the SeWindows is closed.
 ]]
 
+function plresp()
+    if esp then
+        for i,v in pairs(workspace.Game.Players:GetChildren()) do
+            if v:GetAttribute("Team") == "PlayerTeam" and v.Name ~= game.Players.LocalPlayer.Name then
+                local esphigh = Instance.new("BoxHandleAdornment")
+                esphigh.ZIndex = 1
+                esphigh.Visible = true
+                esphigh.AlwaysOnTop = true
+                esphigh.Transparency = 0.7
+                esphigh.Name = "Fairnt_Esp_Player"
+                local esptext = Drawing.new('Text')
+                esptext.Text = "(Display) Name: "..(game.Players:GetPlayerFromCharacter(v).DisplayName)
+                esptext.Center = true
+                esptext.Outline = false
+                esptext.Size = 20
+                esptext.Font = Drawing.Fonts.Monospace -- Monospace, UI, System, Plex
+                esptext.Transparency = 0.9
+                function always()
+                    game:GetService("RunService").RenderStepped:Connect(function(s)
+                        if esp then
+                            if v:FindFirstChild("HumanoidRootPart") ~= nil then
+                                local vector,ison = workspace.CurrentCamera:WorldToViewportPoint(v.HumanoidRootPart.Position)
+                                esphigh.Adornee = v.HumanoidRootPart
+                                esphigh.Size = v.HumanoidRootPart.Size
+                                pcall(function() esphigh.Parent = v.HumanoidRootPart end)
+                                esptext.Position = vector
+                                if ison then
+                                    esptext.Visible = true
+                                else
+                                    esptext.Visible = false
+                                end
+                                if v:GetAttribute("Downed") == true then
+                                    esphigh.Color3 = Color3.fromRGB(255,255,0)
+                                    esptext.Color = Color3.fromRGB(255,255,0)
+                                else
+                                    esphigh.Color3 = Color3.fromRGB(0,0,255)
+                                    esptext.Color = Color3.fromRGB(0,0,255)
+                                end
+                            end
+                        end
+                    end)
+                end
+                coroutine.wrap(always)()
+            end
+        end
+        workspace.Game.Players.ChildAdded:Connect(function(v)
+            if v:GetAttribute("Team") == "PlayerTeam" and v.Name ~= game.Players.LocalPlayer.Name then
+                local esphigh = Instance.new("BoxHandleAdornment")
+                esphigh.ZIndex = 1
+                esphigh.Visible = true
+                esphigh.AlwaysOnTop = true
+                esphigh.Transparency = 0.7
+                esphigh.Name = "Fairnt_Esp_Player"
+                local esptext = Drawing.new('Text')
+                esptext.Text = "(Display) Name: "..(game.Players:GetPlayerFromCharacter(v).DisplayName)
+                esptext.Center = true
+                esptext.Outline = false
+                esptext.Size = 20
+                esptext.Font = Drawing.Fonts.Monospace -- Monospace, UI, System, Plex
+                esptext.Transparency = 0.9
+                function always()
+                    game:GetService("RunService").RenderStepped:Connect(function(s)
+                        if esp then
+                            if v:FindFirstChild("HumanoidRootPart") ~= nil then
+                                local vector,ison = workspace.CurrentCamera:WorldToViewportPoint(v.HumanoidRootPart.Position)
+                                esphigh.Adornee = v.HumanoidRootPart
+                                esphigh.Size = v.HumanoidRootPart.Size
+                                pcall(function() esphigh.Parent = v.HumanoidRootPart end)
+                                esptext.Position = vector
+                                if ison then
+                                    esptext.Visible = true
+                                else
+                                    esptext.Visible = false
+                                end
+                                if v:GetAttribute("Downed") == true then
+                                    esphigh.Color3 = Color3.fromRGB(255,255,0)
+                                    esptext.Color = Color3.fromRGB(255,255,0)
+                                else
+                                    esphigh.Color3 = Color3.fromRGB(0,0,255)
+                                    esptext.Color = Color3.fromRGB(0,0,255)
+                                end
+                            end
+                        end
+                    end)
+                end
+                coroutine.wrap(always)()
+            end
+        end)
+    elseif not esp then
+        cleardrawcache()
+        for i,v in pairs(workspace.Game.Players:GetChildren()) do
+            if v:FindFirstChild("HumanoidRootPart") then
+                if v.HumanoidRootPart:FindFirstChild("Fairnt_Esp_Player") then
+                    pcall(function() v.HumanoidRootPart.Fairnt_Esp_Player:Destroy() end)
+                end
+            end
+        end
+    end
+end
+
 local MainTab = EvadeWindow:MakeTab({
 	Name = "MainTab",
 	Icon = "rbxassetid://4483345998",
@@ -28,73 +128,8 @@ MainTab:AddToggle({
 	Name = "Player Esp",
 	Default = false,
 	Callback = function(Value)
-    esp = Value
-        if esp then
-            for i,v in pairs(workspace.Game.Players:GetChildren()) do
-                if v:GetAttribute("Team") == "PlayerTeam" and v.Name ~= game.Players.LocalPlayer.Name then
-                    print("passed team")
-                    local esphigh = Instance.new("BoxHandleAdornment")
-                    esphigh.ZIndex = 1
-                    esphigh.Visible = true
-                    esphigh.AlwaysOnTop = true
-                    esphigh.Transparency = 0.7
-                    esphigh.Name = "Fairnt_Esp_Player"
-                    function always()
-                        game:GetService("RunService").RenderStepped:Connect(function(s)
-                            if esp then
-                                if v:FindFirstChild("HumanoidRootPart") ~= nil then
-                                    esphigh.Adornee = v.HumanoidRootPart
-                                    esphigh.Size = v.HumanoidRootPart.Size
-                                    pcall(function() esphigh.Parent = v.HumanoidRootPart end)
-                                    if v:GetAttribute("Downed") == true then
-                                        esphigh.Color3 = Color3.new(255,255,0)
-                                    else
-                                        esphigh.Color3 = Color3.new(0,0,255)
-                                    end
-                                end
-                            end
-                        end)
-                    end
-                    coroutine.wrap(always)()
-                end
-            end
-            workspace.Game.Players.ChildAdded:Connect(function(v)
-                if esp and v:GetAttribute("Team") == "PlayerTeam" and v.Name ~= game.Players.LocalPlayer.Name then
-                    print("passed team")
-                    local esphigh = Instance.new("BoxHandleAdornment")
-                    esphigh.ZIndex = 1
-                    esphigh.Visible = true
-                    esphigh.AlwaysOnTop = true
-                    esphigh.Transparency = 0.7
-                    esphigh.Name = "Fairnt_Esp_Player"
-                    function always()
-                        game:GetService("RunService").RenderStepped:Connect(function(s)
-                            if esp then
-                                if v:FindFirstChild("HumanoidRootPart") ~= nil then
-                                    esphigh.Adornee = v.HumanoidRootPart
-                                    esphigh.Size = v.HumanoidRootPart.Size
-                                    pcall(function() esphigh.Parent = v.HumanoidRootPart end)
-                                    if v:GetAttribute("Downed") == true then
-                                        esphigh.Color3 = Color3.new(255,255,0)
-                                    else
-                                        esphigh.Color3 = Color3.new(0,0,255)
-                                    end
-                                end
-                            end
-                        end)
-                    end
-                    coroutine.wrap(always)()
-                end
-            end)
-        elseif not esp then
-            for i,v in pairs(workspace.Game.Players:GetChildren()) do
-                if v:FindFirstChild("HumanoidRootPart") then
-                    if v.HumanoidRootPart:FindFirstChild("Fairnt_Esp_Player") then
-                        pcall(function() v.HumanoidRootPart.Fairnt_Esp_Player:Destroy() end)
-                    end
-                end
-            end
-        end
+        esp = Value
+        plresp()
 	end    
 })
 
