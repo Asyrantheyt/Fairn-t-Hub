@@ -137,7 +137,7 @@ spawn(function()
                 end
             end
         end)
-        if sus then warn(sus) then
+        if sus then warn(sus) end
     end
 end)
 
