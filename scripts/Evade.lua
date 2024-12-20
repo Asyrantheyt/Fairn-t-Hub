@@ -4,6 +4,7 @@ local botesp = false
 local instoption
 local instrevive
 local instkey
+local tpwalking = false
 
 local EvadeWindow = OrionLib:MakeWindow({Name = "Fairn't Hub (Evade)", HidePremium = true, SaveConfig = true, ConfigFolder = "Fairnt_Evade"})
 
@@ -300,6 +301,35 @@ MainTab:AddBind({
 	Hold = true,
 	Callback = function(v)
         instkey = v
+	end    
+})
+
+MainTab:AddToggle({
+	Name = "Emulate Cola Speed",
+	Default = false,
+	Callback = function(Value)
+        local hb = game:GetService("RunService").Heartbeat
+        if Value then
+            tpwalking = true
+            local chr = game.Players.LocalPlayer.Character
+            local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
+            while tpwalking and chr and hum and hum.Parent do
+                local delta = hb:Wait()
+                if hum.MoveDirection.Magnitude > 0 then
+                    --if 2 and isNumber(2) then
+                        chr:TranslateBy(hum.MoveDirection * tonumber(2) * delta * 10)
+                    --else
+                        --chr:TranslateBy(hum.MoveDirection * delta * 10)
+                    --end
+                end
+            end
+        else
+            local delta = hb:Wait()
+            tpwalking = false
+            local chr = game.Players.LocalPlayer.Character
+            local hum = chr and chr:FindFirstChildWhichIsA("Humanoid")
+            chr:TranslateBy(hum.MoveDirection * delta * 10)
+        end
 	end    
 })
 
