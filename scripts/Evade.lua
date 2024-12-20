@@ -1,5 +1,6 @@
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local esp = false
+local botesp = false
 local instoption
 local instrevive
 local instkey
@@ -36,7 +37,8 @@ function plresp()
                 esptext.Font = Drawing.Fonts.Monospace -- Monospace, UI, System, Plex
                 esptext.Transparency = 0.9
                 function always()
-                    game:GetService("RunService").RenderStepped:Connect(function(s)
+                    spawn(function()
+                    while task.wait() do
                         if esp then
                             if v:FindFirstChild("HumanoidRootPart") ~= nil then
                                 -- workspace.Game.Players.ChildRemoved:Connect(function(v2)
@@ -68,6 +70,7 @@ function plresp()
                                 esptext.Visible = false
                             end
                         end
+                    end
                     end)
                 end
                 coroutine.wrap(always)()
@@ -89,7 +92,8 @@ function plresp()
                 esptext.Font = Drawing.Fonts.Monospace -- Monospace, UI, System, Plex
                 esptext.Transparency = 0.9
                 function always()
-                    game:GetService("RunService").RenderStepped:Connect(function(s)
+                    spawn(function()
+                    while task.wait() do
                         if esp then
                             if v:FindFirstChild("HumanoidRootPart") ~= nil then
                                 -- workspace.Game.Players.ChildRemoved:Connect(function(v2)
@@ -121,6 +125,7 @@ function plresp()
                                 esptext.Visible = false
                             end
                         end
+                    end
                     end)
                 end
                 coroutine.wrap(always)()
@@ -138,6 +143,121 @@ function plresp()
     end
 end
 
+function botsesp()
+    if esp then
+        for i,v in pairs(workspace.Game.Players:GetChildren()) do
+            if v:GetAttribute("Team") ~= "PlayerTeam" and v.Name ~= game.Players.LocalPlayer.Name then
+                local esphigh = Instance.new("BoxHandleAdornment")
+                esphigh.ZIndex = 1
+                esphigh.Visible = true
+                esphigh.AlwaysOnTop = true
+                esphigh.Transparency = 0.7
+                esphigh.Name = "Fairnt_Esp_Bot"
+                local esptext = Drawing.new('Text')
+                esptext.Text = "Name: "..v.Name
+                esptext.Center = true
+                esptext.Outline = false
+                esptext.Size = 10
+                esptext.Font = Drawing.Fonts.Monospace -- Monospace, UI, System, Plex
+                esptext.Transparency = 0.9
+                function always()
+                    spawn(function()
+                    while task.wait() do
+                    --game:GetService("RunService").RenderStepped:Connect(function(s)
+                        if botesp then
+                            if v:FindFirstChild("HumanoidRootPart") ~= nil then
+                                -- workspace.Game.Players.ChildRemoved:Connect(function(v2)
+                                --     wait(0.08)
+                                --     if esp then
+                                --         if esptext.Text == "(Display) Name: "..(game.Players:GetPlayerFromCharacter(v2).DisplayName) then
+                                --             esptext:Destroy()
+                                --         end
+                                --     end
+                                -- end)
+                                local vector,ison = workspace.CurrentCamera:WorldToViewportPoint(v.HumanoidRootPart.Position)
+                                esphigh.Adornee = v.HumanoidRootPart
+                                esphigh.Size = v.HumanoidRootPart.Size
+                                pcall(function() esphigh.Parent = v.HumanoidRootPart end)
+                                esptext.Position = vector
+                                if ison then
+                                    esptext.Visible = true
+                                else
+                                    esptext.Visible = false
+                                end
+                                esphigh.Color3 = Color3.fromRGB(255,0,0)
+                                esptext.Color = Color3.fromRGB(255,0,0)
+                            else 
+                                esptext.Visible = false
+                            end
+                        end
+                    end
+                    end)
+                end
+                coroutine.wrap(always)()
+            end
+        end
+        workspace.Game.Players.ChildAdded:Connect(function(v)
+            if botesp and v:GetAttribute("Team") ~= "PlayerTeam" and v.Name ~= game.Players.LocalPlayer.Name then
+                local esphigh = Instance.new("BoxHandleAdornment")
+                esphigh.ZIndex = 1
+                esphigh.Visible = true
+                esphigh.AlwaysOnTop = true
+                esphigh.Transparency = 0.7
+                esphigh.Name = "Fairnt_Esp_Bot"
+                local esptext = Drawing.new('Text')
+                esptext.Text = "Name: "..v.Name
+                esptext.Center = true
+                esptext.Outline = false
+                esptext.Size = 10
+                esptext.Font = Drawing.Fonts.Monospace -- Monospace, UI, System, Plex
+                esptext.Transparency = 0.9
+                function always()
+                    spawn(function()
+                    while task.wait() do
+                        if botesp then
+                            if v:FindFirstChild("HumanoidRootPart") ~= nil then
+                                -- workspace.Game.Players.ChildRemoved:Connect(function(v2)
+                                --     wait(0.08)
+                                --     if esp then
+                                --         if esptext.Text == "(Display) Name: "..(game.Players:GetPlayerFromCharacter(v2).DisplayName) then
+                                --             esptext:Destroy()
+                                --         end
+                                --     end
+                                -- end)
+                                local vector,ison = workspace.CurrentCamera:WorldToViewportPoint(v.HumanoidRootPart.Position)
+                                esphigh.Adornee = v.HumanoidRootPart
+                                esphigh.Size = v.HumanoidRootPart.Size
+                                pcall(function() esphigh.Parent = v.HumanoidRootPart end)
+                                esptext.Position = vector
+                                if ison then
+                                    esptext.Visible = true
+                                else
+                                    esptext.Visible = false
+                                end
+                                esphigh.Color3 = Color3.fromRGB(255,0,0)
+                                esptext.Color = Color3.fromRGB(255,0,0)
+                            else
+                                esptext.Visible = false
+                            end
+                        end
+                    end
+                    end)
+                end
+                coroutine.wrap(always)()
+            end
+        end)
+    elseif not botesp then
+        cleardrawcache()
+        for i,v in pairs(workspace.Game.Players:GetChildren()) do
+            if v:FindFirstChild("HumanoidRootPart") then
+                if v.HumanoidRootPart:FindFirstChild("Fairnt_Esp_Bot") then
+                    pcall(function() v.HumanoidRootPart.Fairnt_Esp_Bot:Destroy() end)
+                end
+            end
+        end
+    end
+end
+
 local MainTab = EvadeWindow:MakeTab({
 	Name = "MainTab",
 	Icon = "rbxassetid://4483345998",
@@ -145,11 +265,13 @@ local MainTab = EvadeWindow:MakeTab({
 })
 
 MainTab:AddToggle({
-	Name = "Player Esp",
+	Name = "Player and Bot Esp",
 	Default = false,
 	Callback = function(Value)
         esp = Value
+        botesp = Value
         plresp()
+        botsesp()
 	end    
 })
 
