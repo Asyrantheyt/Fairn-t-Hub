@@ -107,6 +107,13 @@ MainTab:AddToggle({
         end
 })
 
+MainTab:AddButton({
+	Name = "Get Compass",
+	Callback = function()
+		game:GetService("ReplicatedStorage").Items.Compass:Clone().Parent = game.Players.LocalPlayer.Backpack
+  	end    
+})
+
 MainTab:AddToggle({
 	Name = "Aimbot to alien",
 	Default = false,
