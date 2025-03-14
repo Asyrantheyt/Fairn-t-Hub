@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/darkkcontrol/Roblox-Orion-UI-Libary-OP-UI-LIBARY-/refs/heads/main/source')))()
 local uis = game:GetService("UserInputService")
 
 local bBWindows = OrionLib:MakeWindow({Name = "Fairn't Hub (Blade Ball)", HidePremium = true, SaveConfig = true, ConfigFolder = "Fairnt_BladeBall"})
