@@ -1,6 +1,7 @@
 # Fairn-t-Hub 
 
-#SCRIPT DOESNT WORK ANYMORE AS THE UI LIBARY IS DELETED
+SCRIPT IS BACK AFTER A LONG BLACK OUTT
+
 This is an Open-Source Project and all the scripts are Solara Supported.
 This is a W.I.P Project so dont expect it to work like magic.
 If u want to get your changes to our github Contact me on Discord @alongyt.
