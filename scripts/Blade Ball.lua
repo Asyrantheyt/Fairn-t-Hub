@@ -134,9 +134,9 @@ local function getSpeed(part)
     end
 end
 
---game:GetService("RunService").RenderStepped:Connect(function()
-spawn(function()
-    while task.wait() do
+game:GetService("RunService").Heartbeat:Connect(function()
+--spawn(function()
+    --while task.wait() do
         if AutoaParry then
             pcall(function()
 	            for i, v in pairs(game:GetService("Workspace").Balls:GetChildren()) do
@@ -179,7 +179,7 @@ spawn(function()
                 end
             end)
         end
-    end
+   -- end
 end)
 
 spawn(function()
